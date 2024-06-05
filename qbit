@@ -16,11 +16,28 @@ pidfile_child="/var/run/${name}.pid"
 pidfile="/var/run/${name}_daemon.pid"
 
 load_rc_config ${name}
+: ${qbittorrent_user:="qbittorrent"}
+: ${qbittorrent_group:="qbittorrent"}
 command="/usr/sbin/daemon"
 start_precmd=${name}_precmd
 qbittorrent_precmd()
 {
-    /usr/local/bin/qbittorrent-nox -d
+    rc_flags="-S -P ${pidfile} -p ${pidfile_child} /usr/local/bin/qbittorrent-nox -d ${rc_flags}"
+    
+    if [ ! -e "${pidfile_child}" ]; then
+            install -g ${qbittorrent_group} -o ${qbittorrent_user} -- /dev/null "${pidfile_child}";
+    fi
+
+    if [ ! -e "${pidfile}" ]; then
+            install -g ${qbittorrent_group} -o ${qbittorrent_user} -- /dev/null "${pidfile}";
+    fi
+}
+
+stop_postcmd=${name}_postcmd
+qbittorrent_postcmd()
+{
+    rm -f -- "${pidfile}"
+    rm -f -- "${pidfile_child}"
 }
 
 run_rc_command "$1"
