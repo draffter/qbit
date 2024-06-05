@@ -1,0 +1,26 @@
+#!/bin/sh
+#
+# PROVIDE: qbittorrent
+# REQUIRE: DAEMON
+# KEYWORD: shutdown
+#
+# Add the following line in /etc/rc.conf to enable qbittorrent at startup
+#
+# qbittorrent_enable="YES"
+
+. /etc/rc.subr
+name=qbittorrent
+rcvar=${name}_enable
+
+pidfile_child="/var/run/${name}.pid"
+pidfile="/var/run/${name}_daemon.pid"
+
+load_rc_config ${name}
+command="/usr/sbin/daemon"
+start_precmd=${name}_precmd
+qbittorrent_precmd()
+{
+    qbittorrent-nox -d
+}
+
+run_rc_command "$1"
