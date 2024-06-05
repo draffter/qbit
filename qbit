@@ -20,7 +20,7 @@ command="/usr/sbin/daemon"
 start_precmd=${name}_precmd
 qbittorrent_precmd()
 {
-    qbittorrent-nox -d
+    /usr/local/bin/qbittorrent-nox -d
 }
 
 run_rc_command "$1"
