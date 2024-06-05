@@ -18,11 +18,13 @@ pidfile="/var/run/${name}_daemon.pid"
 load_rc_config ${name}
 : ${qbittorrent_user:="qbittorrent"}
 : ${qbittorrent_group:="qbittorrent"}
+: ${qbittorrent_conf_dir:="/user/local/etc/qbittorrent"}
+: ${qbittorrent_log_dir:="/var/log/qBittorrent"}
 command="/usr/sbin/daemon"
 start_precmd=${name}_precmd
 qbittorrent_precmd()
 {
-    rc_flags="-S -P ${pidfile} -p ${pidfile_child} /usr/local/bin/qbittorrent-nox -d ${rc_flags}"
+    rc_flags="-S -P ${pidfile} -p ${pidfile_child} /usr/local/bin/qbittorrent-nox --configuration ${qbittorrent_conf_dir}/qBittorent.conf ${rc_flags}"
     
     if [ ! -e "${pidfile_child}" ]; then
             install -g ${qbittorrent_group} -o ${qbittorrent_user} -- /dev/null "${pidfile_child}";
@@ -30,6 +32,10 @@ qbittorrent_precmd()
 
     if [ ! -e "${pidfile}" ]; then
             install -g ${qbittorrent_group} -o ${qbittorrent_user} -- /dev/null "${pidfile}";
+    fi
+    
+    if [ ! -d "${qbittorrent_log_dir}" ]; then
+            install -d -g ${qbittorrent_group} -o ${qbittorrent_user} -- "${qbittorrent_log_dir}";
     fi
 }
 
