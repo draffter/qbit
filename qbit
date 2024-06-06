@@ -24,7 +24,7 @@ command="/usr/sbin/daemon"
 start_precmd=${name}_precmd
 qbittorrent_precmd()
 {
-    rc_flags="-S -P ${pidfile} -p ${pidfile_child} /usr/local/bin/qbittorrent-nox --configuration ${qbittorrent_conf_dir}/qBittorent.conf ${rc_flags}"
+    rc_flags="-S -P ${pidfile} -p ${pidfile_child} /usr/local/bin/qbittorrent-nox --profile=${qbittorrent_conf_dir}/ ${rc_flags}"
     
     if [ ! -e "${pidfile_child}" ]; then
             install -g ${qbittorrent_group} -o ${qbittorrent_user} -- /dev/null "${pidfile_child}";
