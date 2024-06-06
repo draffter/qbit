@@ -18,7 +18,7 @@ pidfile="/var/run/${name}_daemon.pid"
 load_rc_config ${name}
 : ${qbittorrent_user:="qbittorrent"}
 : ${qbittorrent_group:="qbittorrent"}
-: ${qbittorrent_conf_dir:="/user/local/etc/qbittorrent"}
+: ${qbittorrent_conf_dir:="/usr/local/etc/qbittorrent"}
 : ${qbittorrent_log_dir:="/var/log/qBittorrent"}
 command="/usr/sbin/daemon"
 start_precmd=${name}_precmd
